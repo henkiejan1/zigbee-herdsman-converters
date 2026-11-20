@@ -621,7 +621,25 @@ export const definitions: DefinitionWithExtend[] = [
         model: "RS 241 T",
         vendor: "Innr",
         description: "GU10 spot 420 lm, dimmable, white spectrum",
-        extend: [m.light({colorTemp: {range: [153, 455]}, turnsOffAtBrightness1: true})],
+        extend: [
+            m.light({colorTemp: {range: [153, 455], startup: true}, turnsOffAtBrightness1: true}),
+            m.numeric({
+                name: "brightness_startup",
+                cluster: "genLevelCtrl",
+                attribute: "startUpCurrentLevel",
+                valueMin: 1,
+                valueMax: 254,
+                presets: [
+                    {name: "10%", value: 25, description: "10% brightness"},
+                    {name: "25%", value: 64, description: "25% brightness"},
+                    {name: "50%", value: 127, description: "50% brightness"},
+                    {name: "75%", value: 191, description: "75% brightness"},
+                    {name: "100%", value: 254, description: "100% brightness"},
+                    {name: "previous", value: 255, description: "Restore previous brightness"},
+                ],
+                description: "Brightness after cold power on of this light",
+            }),
+        ],
         ota: true,
     },
     {
